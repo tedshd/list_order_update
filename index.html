@@ -1,88 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>index</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
-</head>
-<style>
-  li:hover {
-    cursor: move;
-  }
-</style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
+  </head>
+  <style>
+    li:hover {
+      cursor: move;
+    }
+  </style>
 
-<body>
-  <div id="app">
-    <!-- <li v-for="element in originArray"> {{ element }}</li> -->
-    <draggable :list="originArray" @start="drag=true" @end="onEnd">
-      <li v-for="element in originArray">
-        <span>{{element.position}}</span>
-        <span>{{element.name}}</span>
-      </li>
-    </draggable>
-  </div>
-</body>
-<script>
-  var data = {
-    originArray: [
-      {
-        'position': 0,
-        'name': 'Joy'
-      },
-      {
-        'position': 0,
-        'name': 'Kevin'
-      },
-      {
-        'position': 0,
-        'name': 'Rick'
-      },
-      {
-        'position': 1,
-        'name': 'Tony'
-      },
-      {
-        'position': 2,
-        'name': 'Rin'
-      },
-      {
-        'position': 3,
-        'name': 'Sam'
-      },
-      {
-        'position': 4,
-        'name': 'Lili'
+  <body>
+    <div id="app">
+      <!-- <li v-for="element in originArray"> {{ element }}</li> -->
+      <draggable :list="originArray" @start="drag=true" @end="onEnd">
+        <li v-for="element in originArray">
+          <span>{{element.position}}</span>
+          <span>{{element.name}}</span>
+        </li>
+      </draggable>
+    </div>
+  </body>
+  <script>
+    var data = {
+      originArray: [
+        {
+          'position': 0,
+          'name': 'Joy'
+        },
+        {
+          'position': 0,
+          'name': 'Kevin'
+        },
+        {
+          'position': 0,
+          'name': 'Rick'
+        },
+        {
+          'position': 1,
+          'name': 'Tony'
+        },
+        {
+          'position': 2,
+          'name': 'Rin'
+        },
+        {
+          'position': 3,
+          'name': 'Sam'
+        },
+        {
+          'position': 4,
+          'name': 'Lili'
+        }
+      ]
+    }
+
+    var vm = new Vue({
+      el: '#app',
+      data: data,
+      methods: {
+        onEnd: function (e) {
+          console.log(e);
+          orderByASC(this.originArray, e.newIndex, e.oldIndex, 'position');
+        }
       }
-    ]
-  }
+    });
 
-  var vm = new Vue({
-    el: '#app',
-    data: data,
-    methods: {
-      onEnd: function (e) {
-        console.log(e);
-        orderByASC(this.originArray, e.newIndex, e.oldIndex, 'position');
+    function orderByASC(dataArray, newIndex, oldIndex, key) {
+      var min = Math.min(oldIndex, newIndex),
+        max = Math.max(oldIndex, newIndex);
+      console.log(min, max, dataArray);
+      for (let x = min; x < dataArray.length; x++) {
+        console.log(x, dataArray[x][key])
+        dataArray[x][key] = x;
+        console.log(x);
       }
     }
-  });
-
-  function orderByASC(dataArray, newIndex, oldIndex, key) {
-    var min = Math.min(oldIndex, newIndex),
-      max = Math.max(oldIndex, newIndex);
-    console.log(min, max, dataArray);
-    for (let x = min; x < dataArray.length; x++) {
-      if (dataArray[x][key] == x) {
-        break;
-      }
-      dataArray[x][key] = x;
-      console.log(x);
-    }
-  }
-</script>
+  </script>
 
 </html>
